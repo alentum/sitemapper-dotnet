@@ -1,0 +1,8 @@
+﻿<Window x:Class="SiteMapper.DesktopServerHost.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="SiteMapper Server" Height="151.351" Width="338.964" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Loaded="Window_Loaded" Closed="Window_Closed">
+    <Grid Margin="0,0,4,4">
+        <Label Name="StatusLabel" Content="Server is started. Close this window to stop the server." HorizontalAlignment="Center" Margin="13,40,0,0" VerticalAlignment="Top" Width="306" HorizontalContentAlignment="Center"/>
+    </Grid>
+</Window>

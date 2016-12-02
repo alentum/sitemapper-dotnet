@@ -1,0 +1,6 @@
+syntax: glob
+obj
+*.suo
+*.user
+*.log
+Binaries

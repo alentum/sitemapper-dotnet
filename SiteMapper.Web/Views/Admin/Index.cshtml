@@ -1,0 +1,69 @@
+﻿@model SiteMapper.Web.Models.AdminSiteListModel
+
+@{
+    ViewBag.Title = "Admin";
+}
+
+<h2>Admin</h2>
+
+@{var dummySite = Model.Sites.FirstOrDefault(); }
+
+<table class="table site-table">
+    <tr>
+        <th>
+            @Html.ActionLink(Html.DisplayNameFor(model => dummySite.Domain).ToHtmlString(), "Index", new { sortorder = ViewBag.DomainSortParm })
+        </th>
+        <th>
+            @Html.ActionLink(Html.DisplayNameFor(model => dummySite.Progress).ToHtmlString(), "Index", new { sortorder = ViewBag.ProgressSortParm })
+        </th>
+        <th>
+            @Html.ActionLink(Html.DisplayNameFor(model => dummySite.Status).ToHtmlString(), "Index", new { sortorder = ViewBag.StatusSortParm })
+        </th>
+        <th>
+            @Html.ActionLink(Html.DisplayNameFor(model => dummySite.StatusTime).ToHtmlString(), "Index", new { sortorder = ViewBag.StatusTimeSortParm })
+        </th>
+        <th>
+            @Html.ActionLink(Html.DisplayNameFor(model => dummySite.PageCount).ToHtmlString(), "Index", new { sortorder = ViewBag.PageCountSortParm })
+        </th>
+        <th>
+            @Html.ActionLink(Html.DisplayNameFor(model => dummySite.LinkCount).ToHtmlString(), "Index", new { sortorder = ViewBag.LinkCountSortParm })
+        </th>
+        <th>
+            @Html.ActionLink(Html.DisplayNameFor(model => dummySite.RefreshEnabled).ToHtmlString(), "Index", new { sortorder = ViewBag.RefreshEnabledSortParm })
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Sites)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Domain, "ShowMap", "Map", new { domain = item.Domain }, null)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Progress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatusTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PageCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LinkCount)
+            </td>
+            <td>
+                @Html.ActionLink(item.RefreshEnabled ? "Enabled" : "Disabled", "ChangeRefreshEnabled",
+                                 new { domain = item.Domain, refreshenabled = !item.RefreshEnabled, sortorder = Model.SortOrder })
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { domain = item.Domain, sortorder = Model.SortOrder })
+            </td>
+        </tr>
+    }
+</table>
+
+@Html.ActionLink("Log out", "Logout")

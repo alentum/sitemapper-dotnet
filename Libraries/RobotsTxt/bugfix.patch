@@ -1,0 +1,35 @@
+# HG changeset patch
+# User Ryogo <ryogo.z@gmail.com>
+# Date 1393254765 -7200
+#      Mon Feb 24 17:12:45 2014 +0200
+# Node ID 81e96fa7e1f6be95ea67594c2af26be56b91fd09
+# Parent  685a4ecced0a44959f531e325cb38259d051daf0
+Fixes #4 - AccessRules starting with * now handled correctly.
+isPathMatch now works correctly for relative links.
+
+diff -r 685a4ecced0a -r 81e96fa7e1f6 RobotsTxt/Entities/AccessRule.cs
+--- a/RobotsTxt/Entities/AccessRule.cs	Wed Feb 19 16:25:00 2014 +0200
++++ b/RobotsTxt/Entities/AccessRule.cs	Mon Feb 24 17:12:45 2014 +0200
+@@ -11,7 +11,7 @@
+             : base(userAgent, order)
+         {
+             Path = line.Value;
+-            if (!String.IsNullOrEmpty(Path) && !Path.StartsWith("/"))
++            if (!String.IsNullOrEmpty(Path) && !Path.StartsWith("/") && !Path.StartsWith("*"))
+             {
+                 Path = "/" + Path;
+             }
+diff -r 685a4ecced0a -r 81e96fa7e1f6 RobotsTxt/Robots.cs
+--- a/RobotsTxt/Robots.cs	Wed Feb 19 16:25:00 2014 +0200
++++ b/RobotsTxt/Robots.cs	Mon Feb 24 17:12:45 2014 +0200
+@@ -175,8 +175,8 @@
+             // And the reason we remove the first characters of the paths before calling IsPathMatch() is because the first characters will allways be '/',
+             // so there is no point having IsPathMatch() compare them.
+             var matchingRules = rulesForThisRobot.Count > 0 ?
+-                rulesForThisRobot.FindAll(x => String.IsNullOrEmpty(x.Path) || isPathMatch(path.Substring(1), x.Path.Substring(1)))
+-                : globalAccessRules.FindAll(x => String.IsNullOrEmpty(x.Path) || isPathMatch(path.Substring(1), x.Path.Substring(1)));
++                rulesForThisRobot.FindAll(x => String.IsNullOrEmpty(x.Path) || isPathMatch(path, x.Path))
++                : globalAccessRules.FindAll(x => String.IsNullOrEmpty(x.Path) || isPathMatch(path, x.Path));
+ 
+             if (matchingRules.Count == 0)
+             {

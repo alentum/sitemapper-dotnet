@@ -1,0 +1,79 @@
+﻿@model SiteMapper.Web.Models.SiteMapModel
+
+@{
+    ViewBag.Title = Model.Domain;
+    ViewBag.Domain = Model.Domain;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="title-container">
+        <div class="map-options-div">
+            Highlight links: 
+            <div class="btn-group btn-group-xs" data-toggle="buttons" id="linkHighlightOptions">
+                <label class="btn btn-default" id="highlightAllLabel">
+                    <input type="radio" name="linkHighlightMode"> All
+                </label>
+                <label class="btn btn-default" id="highlightOutgoingLabel">
+                    <input type="radio" name="linkHighlightMode"> Outgoing
+                </label>
+                <label class="btn btn-default" id="highlightIncomingLabel">
+                    <input type="radio" name="linkHighlightMode"> Incoming
+                </label>
+            </div>
+        </div>
+        <div class="map-title-div">
+            <h2>@Model.Domain</h2>
+        </div>
+        <div class="map-status-div">
+            <h5>
+                <img src="~/Images/Progress.gif" class="progress-image" id="progress" />
+                <span id="statusText" class="map-status-text">Status</span>
+            </h5>
+        </div>
+    </div>
+</div>
+
+@section styles
+{
+    <style>
+        .link {
+            stroke: #CCCCCC;
+        }
+
+        .node {
+            stroke: #808080;
+            stroke-width: 0.5px;
+        }
+
+        .node text {
+            stroke-width: 0px;
+            pointer-events: none;
+            font-size: 10px;
+        }
+    </style>
+
+    @Styles.Render("~/Content/d3css")
+}
+
+<div id="siteMapBox" class="site-map-box">
+    <div id="siteMapLoading" class="site-map-loading">Loading...</div>
+
+    <svg id="siteMap" class="site-map" style="display: none">
+    </svg>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/d3")
+
+    <script>
+        $(function () {
+            initSiteMap("@Url.Action("MapData", "Map", new { domain = Model.Domain })");
+        });
+    </script>
+}
+
+
+
+

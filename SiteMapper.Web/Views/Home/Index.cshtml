@@ -1,0 +1,40 @@
+﻿@model SiteMapper.Web.Models.SiteAddressModel
+
+@{
+    ViewBag.Title = "Create a visual map of your site";
+    ViewBag.DoNotShowTopSearch = true;
+}
+
+@section scripts {
+    <script>
+        $(function () {
+            $("#addressEdit").focus();
+            setValidationForAddressEdit("addressEdit");
+        });
+    </script>
+}
+
+<div class="center address-form-wrapper">
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "form-inline well address-form" }))
+    {
+        <label for="addressEdit" class="control-label">Site address:</label>
+        @Html.TextBoxFor(m => m.Address, new { @class = "form-control address-edit", id = "addressEdit", placeholder = "www.mysite.com" })
+        <button type="submit" class="btn btn-primary">Get Map</button>
+    }
+
+    <div class="sample-map-panel">
+        <p>Samples:</p>
+        <div class="sample-map-wrapper">
+            <a href="/map/www.alentum.com">
+                <img src="~/Images/map_alentum.png" class="sample-map" /><br />
+                www.alentum.com
+            </a>
+        </div>
+        <div class="sample-map-wrapper">
+            <a href="/map/www.weblogexpert.com">
+                <img src="~/Images/map_weblogexpert.png" class="sample-map" /><br />
+                www.weblogexpert.com
+            </a>
+        </div>
+    </div>
+</div>

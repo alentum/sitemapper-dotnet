@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceDefinition name="SiteMapper.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2013-10.2.2">
+  <WebRole name="SiteMapper.Web" vmsize="ExtraSmall">
+    <Sites>
+      <Site name="Web">
+        <Bindings>
+          <Binding name="HttpIn" endpointName="HttpIn" />
+          <Binding name="HttpsIn" endpointName="HttpsIn" />
+        </Bindings>
+      </Site>
+    </Sites>
+    <Endpoints>
+      <InputEndpoint name="HttpIn" protocol="http" port="80" />
+      <InputEndpoint name="HttpsIn" protocol="https" port="443" certificate="SSLCertificate" />
+    </Endpoints>
+    <Imports>
+      <Import moduleName="Diagnostics" />
+    </Imports>
+    <ConfigurationSettings>
+      <Setting name="StorageConnectionString" />
+    </ConfigurationSettings>
+    <Startup>
+      <Task commandLine="Startup\Startup.cmd" executionContext="elevated">
+        <Environment>
+          <Variable name="ComputeEmulatorRunning">
+            <RoleInstanceValue xpath="/RoleEnvironment/Deployment/@emulated" />
+          </Variable>
+        </Environment>
+      </Task>
+    </Startup>
+    <Certificates>
+      <Certificate name="SSLCertificate" storeLocation="LocalMachine" storeName="CA" />
+    </Certificates>
+  </WebRole>
+  <WorkerRole name="SiteMapper.AzureWorker" vmsize="ExtraSmall">
+    <Imports>
+      <Import moduleName="Diagnostics" />
+    </Imports>
+    <ConfigurationSettings>
+      <Setting name="StorageConnectionString" />
+    </ConfigurationSettings>
+  </WorkerRole>
+</ServiceDefinition>

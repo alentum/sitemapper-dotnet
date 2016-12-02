@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="SiteMapper.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="3" osVersion="*" schemaVersion="2013-10.2.2">
+  <Role name="SiteMapper.Web">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="" />
+      <Setting name="StorageConnectionString" value="" />
+    </ConfigurationSettings>
+    <Certificates>
+      <Certificate name="SSLCertificate" thumbprint="" thumbprintAlgorithm="sha1" />
+    </Certificates>
+  </Role>
+  <Role name="SiteMapper.AzureWorker">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="" />
+      <Setting name="StorageConnectionString" value="" />
+    </ConfigurationSettings>
+  </Role>
+</ServiceConfiguration>

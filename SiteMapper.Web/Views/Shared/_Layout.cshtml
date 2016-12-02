@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    @*<meta name="viewport" content="width=device-width, initial-scale=1.0">*@
+    <title>Visual Site Mapper - @ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @RenderSection("styles", required: false)
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Visual Site Mapper", "Index", "Home", null, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                </ul>
+
+                <!-- Domain search -->
+                @{ bool showSearchForm = (ViewBag.DoNotShowTopSearch == null) || !ViewBag.DoNotShowTopSearch; }
+                @if (showSearchForm) 
+                {
+                    using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "navbar-form navbar-right" }))
+                    {
+                        @Html.TextBox("Address", null, null, new { @class = "form-control top-address-edit", id = "topAddressEdit", placeholder = "www.mysite.com" })
+                        <button type="submit" class="btn btn-default">Get Map</button>
+                    }
+                }
+                
+                <!-- History -->
+                <div class="nav pull-right">
+                    <div class="btn-group navbar-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            History <span class="caret"></span>
+                        </button>
+                        @if (showSearchForm)
+                        {
+                            <ul class="dropdown-menu" role="menu" id="domainHistory"></ul>
+                        }
+                        else
+                        {
+                            <ul class="dropdown-menu dropdown-menu-respalign" role="menu" id="domainHistory"></ul>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @RenderBody()
+
+    <footer>
+        <hr />
+        <div class="container">
+            &copy; @DateTime.Now.Year <a href="http://www.alentum.com/">Alentum Software Ltd.</a>
+            <span class="pull-right">Web log analytics by <a href="http://www.weblogexpert.com/">WebLog Expert</a></span>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/sitemapper")
+
+    <script>
+        $(function () {
+            setValidationForAddressEdit("topAddressEdit", true);
+            updateDomainHistory("@ViewBag.Domain");
+        });
+    </script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
